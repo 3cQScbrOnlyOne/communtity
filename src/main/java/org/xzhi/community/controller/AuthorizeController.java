@@ -11,7 +11,10 @@ import org.xzhi.community.mapper.UserMapper;
 import org.xzhi.community.model.User;
 import org.xzhi.community.provider.GithubProvider;
 
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -31,13 +34,15 @@ public class AuthorizeController {
 
     @Autowired
     private UserMapper userMapper;
+
     private GithubUser user;
 
 
     @GetMapping("callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request) {
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
         AccessTokenDto accessTokenDto = new AccessTokenDto();
         accessTokenDto.setClient_id(clientId);
         accessTokenDto.setClient_secret(clientSercet);
@@ -45,18 +50,19 @@ public class AuthorizeController {
         accessTokenDto.setRedirect_uri(redirectUri);
         accessTokenDto.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
-        githubProvider.getAccessToken(new AccessTokenDto());
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if (githubUser != null) {
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
+            response.addCookie(new Cookie("token" ,token));
+
             //登录成功
-            request.getSession().setAttribute("user", githubUser);
             return "redirect:/";
         } else {
             //登录失败

@@ -2,29 +2,26 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Elatic中文社区</title>
+    <title>发布 - Elatic中文社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 
 </head>
 <body>
-
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Elatic中文社区</span>
-
             </button>
             <a class="navbar-brand" href="#">Elatic中文社区</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
             <form class="navbar-form navbar-left">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="搜索问题">
@@ -39,7 +36,6 @@
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
                         <li><a href="#">注销</a></li>
-
                     </ul>
                 </li>
                 <li th:if="${session.user == null}">
@@ -48,8 +44,43 @@
             </ul>
         </div>
     </div>
-</nav>
 
+
+</nav>
+<div class="container-fluid main" >
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+
+            <hr>
+
+            <form action="">
+                <div class="form-group">
+                    <label for="title">问题标题</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="问题标题...   ">
+                </div>
+                <div class="form-group">
+                    <label for="title">问题补充</label>
+                    <textarea name="description" id="description" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="title">添加标签</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签：以，号隔开">
+                </div>
+
+                <button type="submit" class="btn-success btn-publish">发布</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>问题发起指南</h3>
+            ·问题标题：请用精简的语言描述您的问题，不超过25字
+            ·问题补充：详细补充您的问题内容，并确保内容问题描述清晰直观，并提供一些详细的资料：
+            ·选择标签：选择一个或多个合适的标签，每个标签不超过10个字
+
+
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
